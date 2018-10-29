@@ -12,10 +12,10 @@ class MessageList extends Component {
           content: "I won't be impressed with technology until I can download food.",
           username: "Anonymous1"
         },
-        // {
-        //   type: "incomingNotification",
-        //   content: "Anonymous1 changed their name to nomnom",
-        // },
+        {
+          type: "incomingNotification",
+          content: "Anonymous1 changed their name to nomnom",
+        },
         {
           type: "incomingMessage",
           content: "I wouldn't want to download Kraft Dinner. I'd be scared of cheese packet loss.",
@@ -36,10 +36,10 @@ class MessageList extends Component {
           content: "This isn't funny. You're not funny",
           username: "nomnom"
         },
-        // {
-        //   type: "incomingNotification",
-        //   content: "Anonymous2 changed their name to NotFunny",
-        // },
+        {
+          type: "incomingNotification",
+          content: "Anonymous2 changed their name to NotFunny",
+        },
       ]};
   }
 
