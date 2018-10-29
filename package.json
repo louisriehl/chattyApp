@@ -1,14 +1,14 @@
 {
-  "name": "react-simple-boilerplate",
+  "name": "tinyApp",
   "version": "1.0.0",
-  "description": "Simple and lightweight Boilerplate for ReactJS projects",
+  "description": "Simple react messaging app",
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/noahlotzer/react-simple-boilerplate.git"
+    "url": "git@github.com:louisriehl/chattyApp.git"
   },
   "keywords": [
     "react",
@@ -19,12 +19,9 @@
     "edit",
     "webpack"
   ],
-  "author": "Noah-Jerome Lotzer <n.lotzer@neusta.de>",
+  "author": "Louis Riehl <louisriehl@gmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/noahlotzer/react-simple-boilerplate/issues"
-  },
-  "homepage": "https://github.com/noahlotzer/react-simple-boilerplate",
+  "homepage": "git@github.com:louisriehl/chattyApp.git",
   "engines": {
     "node": ">=6.0.0"
   },
