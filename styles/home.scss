@@ -20,6 +20,19 @@
       right: 0;
     }
 
+    .message-form,
+    .user-form {
+      display: flex
+    }
+
+    .message-form {
+      width: 100%;
+    }
+
+    .user-form {
+      width: 25%;
+    }
+
     .chatbar-message,
     .chatbar-username {
       border: 1px solid black;
