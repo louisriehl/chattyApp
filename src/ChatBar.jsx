@@ -22,7 +22,7 @@ class ChatBar extends Component {
       <footer className="chatbar">
       <form onSubmit={this.onSubmit} className="user-form">
         <input className="chatbar-username"
-          placeholder={this.props.currentUser.name}
+          placeholder={this.props.currentUser.name || "Anonymous"}
           name="user" />
       </form>
       <form onSubmit={this.onSubmit} className="message-form">

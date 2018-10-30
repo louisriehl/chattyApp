@@ -6,7 +6,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
     this.addMessage = this.addMessage.bind(this);
@@ -14,7 +14,7 @@ class App extends Component {
   }
 
   addMessage(message) {
-    const serverMessage = {user: this.state.currentUser.name, content: message, type: "incomingMessage"};
+    const serverMessage = {user: this.state.currentUser.name || "Anonymous", content: message, type: "incomingMessage"};
     this.socket.send(JSON.stringify(serverMessage));
   }
 
