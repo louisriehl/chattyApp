@@ -9,7 +9,7 @@ class ChatBar extends Component {
   onSubmit(event) {
     event.preventDefault();
     if (event.target.user) {
-      console.log("New user added!");
+      console.log("Changing user!");
     } else if (event.target.message) {
       const content = event.target.message.value;
       this.props.addMessage(content);
