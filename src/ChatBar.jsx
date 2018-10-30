@@ -8,7 +8,9 @@ class ChatBar extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    console.log("Submit!");
+    const content = event.target.message.value;
+    this.props.addMessage(content);
+    event.target.message.value = "";
   }
 
   render() {
@@ -22,7 +24,6 @@ class ChatBar extends Component {
         <input className="chatbar-message"
           placeholder="Type a message and hit ENTER"
           name="message" />
-        <input type="submit" style={{display: "none"}}/>
       </form>
       </footer>);
   }

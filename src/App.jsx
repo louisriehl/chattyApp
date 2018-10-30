@@ -27,7 +27,9 @@ class App extends Component {
   }
 
   addMessage(message) {
-    const newMessage = {id: this.state.idTracker, username: this.state.currentUser, content: message, type:"incomingMessage"};
+    console.log('Got new message', message);
+    const newMessage = {id: this.state.idTracker, username: this.state.currentUser.name, content: message, type:"incomingMessage"};
+    console.log('New message', newMessage);
     const messages = this.state.messages.concat(newMessage);
     this.setState({messages: messages, idTracker: this.state.idTracker + 1});
   }
