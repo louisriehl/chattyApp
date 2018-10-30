@@ -7,21 +7,8 @@ class App extends Component {
     super();
     this.state = {
       currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id: 1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-          type: "incomingMessage"
-        },
-        {
-          id: 2,
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
-          type: "incomingMessage"
-        }
-      ],
-     idTracker: 3
+      messages: [],
+     idTracker: 1
     };
     this.addMessage = this.addMessage.bind(this);
   }
