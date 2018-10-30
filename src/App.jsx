@@ -11,11 +11,16 @@ class App extends Component {
     };
     this.addMessage = this.addMessage.bind(this);
     this.updateState = this.updateState.bind(this);
+    this.updateCurrentUser = this.updateCurrentUser.bind(this);
   }
 
   addMessage(message) {
     const serverMessage = {user: this.state.currentUser.name || "Anonymous", content: message, type: "incomingMessage"};
     this.socket.send(JSON.stringify(serverMessage));
+  }
+
+  updateCurrentUser(user) {
+    this.setState({currentUser: {name: user}});
   }
 
   componentDidMount() {
@@ -39,7 +44,7 @@ class App extends Component {
     return (
       <div className="app">
       <MessageList messages={this.state.messages}/>
-      <ChatBar currentUser={this.state.currentUser} addMessage={this.addMessage}/>
+      <ChatBar currentUser={this.state.currentUser} addMessage={this.addMessage} updateCurrentUser={this.updateCurrentUser}/>
       </div>
     );
   }
