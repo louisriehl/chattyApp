@@ -11,10 +11,12 @@ class App extends Component {
         {
           username: "Bob",
           content: "Has anyone seen my marbles?",
+          type: "incomingMessage"
         },
         {
           username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
+          type: "incomingMessage"
         }
       ]
     };
@@ -23,7 +25,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-      <MessageList />
+      <MessageList messages={this.state.messages}/>
       <ChatBar currentUser={this.state.currentUser}/>
       </div>
     );
