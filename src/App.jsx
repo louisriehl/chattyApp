@@ -33,6 +33,8 @@ class App extends Component {
   addMessage(message) {
     const newMessage = {id: this.state.idTracker, username: this.state.currentUser.name, content: message, type:"incomingMessage"};
     const messages = this.state.messages.concat(newMessage);
+    const serverMessage = {user: this.state.currentUser.name, content: message};
+    this.socket.send(JSON.stringify(serverMessage));
     this.setState({messages: messages, idTracker: this.state.idTracker + 1});
   }
 
