@@ -18,6 +18,12 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
+wss.broadcast = function broadcast(data) {
+  wss.clients.forEach(function each(client) {
+    client.send(data);
+  });
+};
+
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
@@ -26,9 +32,9 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (data)=> {
     // When receiving a message, parse to JSON, add a UUID, then send it back
-    data = JSON.parse(data);
-    data.id = uuid();
-    ws.send(JSON.stringify(data));
+    parsedData = JSON.parse(data);
+    parsedData.id = uuid();
+    wss.broadcast(JSON.stringify(parsedData));
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
