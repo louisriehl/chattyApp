@@ -7,43 +7,35 @@ class App extends Component {
     super();
     this.state = {
       currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id: 1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-          type: "incomingMessage"
-        },
-        {
-          id: 2,
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
-          type: "incomingMessage"
-        }
-      ],
-     idTracker: 3
+      messages: []
     };
     this.addMessage = this.addMessage.bind(this);
-  }
-
-  changeUser(username) {
-
+    this.updateState = this.updateState.bind(this);
   }
 
   addMessage(message) {
-    const newMessage = {id: this.state.idTracker, username: this.state.currentUser.name, content: message, type:"incomingMessage"};
-    const messages = this.state.messages.concat(newMessage);
-    const serverMessage = {user: this.state.currentUser.name, content: message};
+    const serverMessage = {user: this.state.currentUser.name, content: message, type: "incomingMessage"};
     this.socket.send(JSON.stringify(serverMessage));
-    this.setState({messages: messages, idTracker: this.state.idTracker + 1});
   }
 
   componentDidMount() {
     const self = this;
     this.socket = new WebSocket("ws://0.0.0.0:3001");
+    this.socket.onmessage = ( evt => {
+      const data = JSON.parse(evt.data);
+      this.updateState(data);
+    });
+  }
+
+  updateState(data) {
+    const oldMessages = this.state.messages;
+    const newMessages = [...oldMessages, data];
+    this.setState({messages: newMessages});
   }
 
   render() {
+    console.log('App.jsx rerendered, printing state', this.state);
+    console.log('Sending this to MessageList', this.state.messages);
     return (
       <div className="app">
       <MessageList messages={this.state.messages}/>
