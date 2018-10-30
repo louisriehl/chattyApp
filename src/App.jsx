@@ -34,8 +34,8 @@ class App extends Component {
   }
 
   render() {
-    console.log('App.jsx rerendered, printing state', this.state);
-    console.log('Sending this to MessageList', this.state.messages);
+    // console.log('App.jsx rerendered, printing state', this.state);
+    // console.log('Sending this to MessageList', this.state.messages);
     return (
       <div className="app">
       <MessageList messages={this.state.messages}/>
