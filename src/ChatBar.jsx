@@ -8,9 +8,13 @@ class ChatBar extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    const content = event.target.message.value;
-    this.props.addMessage(content);
-    event.target.message.value = "";
+    if (event.target.user) {
+      console.log("New user added!");
+    } else if (event.target.message) {
+      const content = event.target.message.value;
+      this.props.addMessage(content);
+      event.target.message.value = "";
+    }
   }
 
   render() {
@@ -18,7 +22,8 @@ class ChatBar extends Component {
       <footer className="chatbar">
       <form onSubmit={this.onSubmit} className="user-form">
         <input className="chatbar-username"
-          placeholder={this.props.currentUser.name} />
+          placeholder={this.props.currentUser.name}
+          name="user" />
       </form>
       <form onSubmit={this.onSubmit} className="message-form">
         <input className="chatbar-message"
