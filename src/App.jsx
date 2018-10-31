@@ -25,7 +25,15 @@ class App extends Component {
   }
 
   sendNotification(notification) {
-    const serverMessage = {};
+    console.log('Received notification', notification);
+    const currentUser = this.state.currentUser.name || "Anonymous";
+    const newUser = notification.newUser || "Anonymous";
+    const serverMessage = {
+      content: currentUser +
+      " has changed their name to " + newUser,
+      type: notification.type
+    };
+    console.log('Sending notification to server', serverMessage);
   }
 
   updateCurrentUser(user) {

@@ -21,11 +21,17 @@ class ChatBar extends Component {
 
   onBlur(event) {
     console.log(event.target.value);
+    const content = {
+      newUser: event.target.value,
+      type: "postNotification"
+    };
+    this.props.sendNotification(content);
+    this.props.updateCurrentUser(event.target.value);
   }
 
   onChange(event) {
     console.log(event.target.value);
-    this.props.updateCurrentUser(event.target.value);
+    // this.props.updateCurrentUser(event.target.value);
   }
 
   render() {
