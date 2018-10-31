@@ -9,14 +9,32 @@ class App extends Component {
       currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
-    this.addMessage = this.addMessage.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
     this.updateState = this.updateState.bind(this);
     this.updateCurrentUser = this.updateCurrentUser.bind(this);
+    this.sendNotification = this.sendNotification.bind(this);
   }
 
-  addMessage(message) {
-    const serverMessage = {user: this.state.currentUser.name || "Anonymous", content: message, type: "incomingMessage"};
+  sendMessage(message) {
+    const serverMessage = {
+      user: this.state.currentUser.name || "Anonymous",
+      content: message.message, type: message.type
+    };
+    console.log('Posting message content', serverMessage);
     this.socket.send(JSON.stringify(serverMessage));
+  }
+
+  sendNotification(notification) {
+    // console.log('Received notification', notification);
+    const currentUser = this.state.currentUser.name || "Anonymous";
+    const newUser = notification.newUser || "Anonymous";
+    const serverMessage = {
+      content: currentUser +
+      " has changed their name to " + newUser,
+      type: notification.type
+    };
+    this.socket.send(JSON.stringify(serverMessage));
+    // console.log('Sending notification to server', serverMessage);
   }
 
   updateCurrentUser(user) {
@@ -44,7 +62,10 @@ class App extends Component {
     return (
       <div className="app">
       <MessageList messages={this.state.messages}/>
-      <ChatBar currentUser={this.state.currentUser} addMessage={this.addMessage} updateCurrentUser={this.updateCurrentUser}/>
+      <ChatBar currentUser={this.state.currentUser}
+        sendMessage={this.sendMessage}
+        updateCurrentUser={this.updateCurrentUser}
+        sendNotification={this.sendNotification}/>
       </div>
     );
   }

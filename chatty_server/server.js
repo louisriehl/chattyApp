@@ -34,6 +34,13 @@ wss.on('connection', (ws) => {
     // When receiving a message, parse to JSON, add a UUID, then send it back
     parsedData = JSON.parse(data);
     parsedData.id = uuid();
+    if(parsedData.type === "postMessage") {
+      parsedData.type = "incomingMessage";
+    } else if (parsedData.type === "postNotification") {
+      parsedData.type = "incomingNotification";
+    } else {
+      throw new Error("Unknown data type", parsedData.type);
+    }
     wss.broadcast(JSON.stringify(parsedData));
   });
 
