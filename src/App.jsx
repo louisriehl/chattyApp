@@ -78,7 +78,7 @@ class App extends Component {
       <div className="app">
       <nav className="navbar">
         <span>{this.state.usersOnline} User(s) Online</span>
-        <a href="/" className="navbar-brand"><i className="far fa-comments"></i>Chatty</a>
+        <a href="/" className="navbar-brand"><i className="far fa-comments"></i> Chatty</a>
       </nav>
       <MessageList messages={this.state.messages}/>
       <ScrollManager />
