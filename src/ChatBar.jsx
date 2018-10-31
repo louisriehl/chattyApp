@@ -5,14 +5,18 @@ class ChatBar extends Component {
     super();
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
   }
 
   onSubmit(event) {
-    console.log(this.props);
     event.preventDefault();
     const content = event.target.message.value;
     this.props.addMessage(content);
     event.target.message.value = "";
+  }
+
+  onBlur(event) {
+    console.log(event.target.value);
   }
 
   onChange(event) {
@@ -25,7 +29,7 @@ class ChatBar extends Component {
       <footer className="chatbar">
       <input className="chatbar-username"
           placeholder={this.props.currentUser.name || "Anonymous"}
-          name="user" onChange={this.onChange}/>
+          name="user" onChange={this.onChange} onBlur={this.onBlur}/>
       <form onSubmit={this.onSubmit} className="message-form">
         <input className="chatbar-message"
           placeholder="Type a message and hit ENTER"
