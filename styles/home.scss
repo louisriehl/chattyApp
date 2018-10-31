@@ -2,15 +2,15 @@
     @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 
     body {
-      background: #ffe4fd;
+      background: #e4f8ff;
       color: white;
       font-family: 'Open Sans', sans-serif;
       font-size: 14px;
     }
 
     .chatbar {
-      background: #9858d8;
-      border-top: 3px solid #d48fff;
+      background: #8be1f3;
+      border-top: 3px solid #41bfe1;
       bottom: 0;
       display: flex;
       left: 0;
@@ -34,7 +34,7 @@
 
     .chatbar-message,
     .chatbar-username {
-      border: 1px solid #d48fff;
+      border: 1px solid #41bfe1;
       border-radius: 0.5em;
       display: block;
       height: 40px;
@@ -96,8 +96,8 @@
     }
 
     .navbar {
-      background: #9858d8;
-      border-bottom: 3px solid #d48fff;
+      background: #8be1f3;
+      border-bottom: 3px solid #41bfe1;
       height: 60px;
       left: 0;
       padding: 0 10px;
