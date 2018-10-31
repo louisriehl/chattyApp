@@ -12,6 +12,7 @@ class App extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.updateState = this.updateState.bind(this);
     this.updateCurrentUser = this.updateCurrentUser.bind(this);
+    this.sendNotification = this.sendNotification.bind(this);
   }
 
   sendMessage(message) {
@@ -21,6 +22,10 @@ class App extends Component {
     };
     console.log('Posting message content', serverMessage);
     this.socket.send(JSON.stringify(serverMessage));
+  }
+
+  sendNotification(notification) {
+    const serverMessage = {};
   }
 
   updateCurrentUser(user) {
@@ -48,7 +53,10 @@ class App extends Component {
     return (
       <div className="app">
       <MessageList messages={this.state.messages}/>
-      <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} updateCurrentUser={this.updateCurrentUser}/>
+      <ChatBar currentUser={this.state.currentUser}
+        sendMessage={this.sendMessage}
+        updateCurrentUser={this.updateCurrentUser}
+        sendNotification={this.sendNotification}/>
       </div>
     );
   }

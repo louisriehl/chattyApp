@@ -35,8 +35,11 @@ wss.on('connection', (ws) => {
     parsedData = JSON.parse(data);
     parsedData.id = uuid();
     if(parsedData.type === "postMessage") {
-      console.log('Changing postMessage to incomingMessage');
       parsedData.type = "incomingMessage";
+    } else if (parsedData.type === "postNotification") {
+      parsedData.type = "incomingNotification";
+    } else {
+      throw new Error("Unknown data type", parsedData.type);
     }
     wss.broadcast(JSON.stringify(parsedData));
   });
