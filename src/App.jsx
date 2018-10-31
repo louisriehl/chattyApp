@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
+import ScrollManager from './ScrollManager.jsx';
 
 class App extends Component {
   constructor() {
@@ -76,6 +77,7 @@ class App extends Component {
         <a href="/" className="navbar-brand">Chatty</a>
       </nav>
       <MessageList messages={this.state.messages}/>
+      <ScrollManager />
       <ChatBar currentUser={this.state.currentUser}
         sendMessage={this.sendMessage}
         updateCurrentUser={this.updateCurrentUser}
