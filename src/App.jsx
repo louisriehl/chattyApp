@@ -54,14 +54,14 @@ class App extends Component {
 
   // Handles server messages and determines state changes
   updateState(data) {
-    if(data.numberOfClients) {
+    if(data.numberOfClients) { // This is a client update
       this.setState({usersOnline: data.numberOfClients});
-    } else if(data.userColor && !data.content) {
+    } else if(data.userColor && !data.user) { // This is a color update
       // React doesn't play well with nested states, so we create a dummy object to store the whole property
       let currentUser = {...this.state.currentUser};
       currentUser.color = data.userColor;
       this.setState({currentUser});
-    } else {
+    } else { // This is a new message to post
       const oldMessages = this.state.messages;
       const newMessages = [...oldMessages, data];
       this.setState({messages: newMessages});

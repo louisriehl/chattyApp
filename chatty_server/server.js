@@ -27,6 +27,7 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
+// Scans content for image urls. If it finds any, it removes them from the content string, and puts those strings into an array
 function parseImageArray(messageToParse) {
   let imageArray = [];
   const parsedMessage = messageToParse
@@ -88,6 +89,7 @@ wss.on('connection', (ws) => {
     } else {
       throw new Error("Unknown data type", parsedData.type);
     }
+    console.log(parsedData);
     wss.broadcast(JSON.stringify(parsedData));
   });
 
