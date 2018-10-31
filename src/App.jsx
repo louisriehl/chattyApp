@@ -45,17 +45,18 @@ class App extends Component {
   componentDidMount() {
     const self = this;
     this.socket = new WebSocket("ws://0.0.0.0:3001");
-    this.socket.onopen = (evt => {
-      const serverMessage = {
-        content: "New user has connected",
-        type: "postNotification"
-      };
-      this.socket.send(JSON.stringify(serverMessage));
-    });
+    // this.socket.onopen = (evt => {
+    //   const serverMessage = {
+    //     content: "New user has connected",
+    //     type: "postNotification"
+    //   };
+    //   this.socket.send(JSON.stringify(serverMessage));
+    // });
     this.socket.onmessage = ( evt => {
       const data = JSON.parse(evt.data);
       this.updateState(data);
     });
+
     this.socket.onclose = (evt => {
       const currentUser = this.state.currentUser.name || "Anonymous";
       const serverMessage = {
