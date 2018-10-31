@@ -68,7 +68,8 @@ wss.on('connection', (ws) => {
   // When a user connects, send a notification to everyone but the current user
   wss.broadcastToOthers(JSON.stringify({
     content: "New user has connected",
-    type: "incomingNotification"
+    type: "incomingNotification",
+    id: uuid()
   }), ws);
 
   // Triggered when the server receives some data from a client
@@ -102,7 +103,8 @@ wss.on('connection', (ws) => {
     // Send disconnect message to all except client
     wss.broadcastToOthers(JSON.stringify({
       content: "A user has disconnected",
-      type: "incomingNotification"
+      type: "incomingNotification",
+      id: uuid()
     }));
   });
 });

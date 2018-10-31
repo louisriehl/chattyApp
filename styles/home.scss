@@ -2,16 +2,15 @@
     @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 
     body {
-      background: white;
-      color: black;
+      background: #e4f8ff;
+      color: white;
       font-family: 'Open Sans', sans-serif;
       font-size: 14px;
-      margin: 70px 0;
     }
 
     .chatbar {
-      background: tomato;
-      border-top: 1px solid black;
+      background: #8be1f3;
+      border-top: 3px solid #41bfe1;
       bottom: 0;
       display: flex;
       left: 0;
@@ -35,7 +34,8 @@
 
     .chatbar-message,
     .chatbar-username {
-      border: 1px solid black;
+      border: 1px solid #41bfe1;
+      border-radius: 0.5em;
       display: block;
       height: 40px;
       line-height: 40px;
@@ -54,11 +54,17 @@
     .message {
       display: flex;
       padding: 5px;
+      color: black;
+      background: white;
+      border-radius: 0.5em;
+      margin: 1em 3em;
+      box-shadow: 6px 6px 16px 0px #a0a0a0
     }
 
     .message.system {
+      color: gray;
       font-style: italic;
-      padding: 5px 20px;
+      padding: 1em 1.5em;
     }
 
     .message-content,
@@ -70,20 +76,28 @@
 
     .message-content {
       flex: 8;
+      line-height: 1.4em;
     }
 
     .message-image {
       max-width: 60%;
+      border-radius: 1em;
     }
 
     .message-username {
-      flex: 2;
-      font-weight: 700;
+      flex: 1.3;
+      font-family: 'Baloo Bhaijaan', cursive;
+      font-size: 1.2em;
+    }
+
+    .messages {
+      margin-top: 5em;
+      margin-bottom: 5em;
     }
 
     .navbar {
-      background: tomato;
-      border-bottom: 1px solid black;
+      background: #8be1f3;
+      border-bottom: 3px solid #41bfe1;
       height: 60px;
       left: 0;
       padding: 0 10px;
@@ -93,9 +107,14 @@
     }
 
     .navbar span {
+      background: white;
+      padding: 0.6em;
+      color: #6de3f5;
+      border-radius: .5em;
+      font-size: 1.4em;
       float: right;
-      margin: 1em;
-      line-height: 2.3em;
+      margin: 0.4em 0.3em;
+      font-family: 'Baloo Bhaijaan', cursive;
     }
 
     .navbar-brand {
@@ -103,9 +122,10 @@
       display: block;
       float: left;
       font-weight: 700;
-      font-size: 28px;
+      font-size: 3em;
       height: 60px;
       line-height: 60px;
       padding: 0 10px;
       text-decoration: none;
+      font-family: 'Baloo Bhaijaan', cursive;
     }
