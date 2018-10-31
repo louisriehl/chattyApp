@@ -61,6 +61,9 @@ class App extends Component {
     // console.log('Sending this to MessageList', this.state.messages);
     return (
       <div className="app">
+      <nav className="navbar">
+        <a href="/" className="navbar-brand">Chatty</a>
+      </nav>
       <MessageList messages={this.state.messages}/>
       <ChatBar currentUser={this.state.currentUser}
         sendMessage={this.sendMessage}
