@@ -13,7 +13,6 @@ class ChatBar extends Component {
       message: event.target.message.value,
       type: "postMessage"
     };
-    console.log('ChatBar is sending:', content);
     this.props.sendMessage(content);
     event.target.message.value = "";
   }

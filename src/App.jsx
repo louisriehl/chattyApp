@@ -22,7 +22,6 @@ class App extends Component {
       userColor: this.state.currentUser.color,
       content: message.message, type: message.type
     };
-    console.log('App is sending this message to the server:', serverMessage);
     this.socket.send(JSON.stringify(serverMessage));
   }
 
@@ -66,7 +65,6 @@ class App extends Component {
       const oldMessages = this.state.messages;
       const newMessages = [...oldMessages, data];
       this.setState({messages: newMessages});
-      console.log('New server state is:', this.state);
     }
   }
 
