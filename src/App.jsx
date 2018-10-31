@@ -7,7 +7,8 @@ class App extends Component {
     super();
     this.state = {
       currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+      messages: [],
+      usersOnline: 0
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateState = this.updateState.bind(this);
@@ -51,9 +52,14 @@ class App extends Component {
   }
 
   updateState(data) {
-    const oldMessages = this.state.messages;
-    const newMessages = [...oldMessages, data];
-    this.setState({messages: newMessages});
+    console.log(data);
+    if(data.numberOfClients) {
+      this.setState({usersOnline: data.numberOfClients});
+    } else {
+      const oldMessages = this.state.messages;
+      const newMessages = [...oldMessages, data];
+      this.setState({messages: newMessages});
+    }
   }
 
   render() {
@@ -62,6 +68,7 @@ class App extends Component {
     return (
       <div className="app">
       <nav className="navbar">
+        <span>{this.state.usersOnline} User(s) Online</span>
         <a href="/" className="navbar-brand">Chatty</a>
       </nav>
       <MessageList messages={this.state.messages}/>
