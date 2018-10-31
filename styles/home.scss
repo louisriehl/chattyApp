@@ -70,6 +70,7 @@
 
     .message-content {
       flex: 8;
+      line-height: 1.4em;
     }
 
     .message-image {
@@ -78,7 +79,8 @@
 
     .message-username {
       flex: 2;
-      font-weight: 700;
+      font-family: 'Baloo Bhaijaan', cursive;
+      font-size: 1.2em;
     }
 
     .navbar {
@@ -96,6 +98,7 @@
       float: right;
       margin: 1em;
       line-height: 2.3em;
+      font-family: 'Baloo Bhaijaan', cursive;
     }
 
     .navbar-brand {
@@ -108,4 +111,5 @@
       line-height: 60px;
       padding: 0 10px;
       text-decoration: none;
+      font-family: 'Baloo Bhaijaan', cursive;
     }
