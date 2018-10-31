@@ -27,6 +27,20 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
+// Scans content for image urls. If it finds any, it removes them from the content string, and puts those strings into an array
+function parseImageArray(messageToParse) {
+  let imageArray = [];
+  const parsedMessage = messageToParse
+    .replace(/(https?:\/\/.*\.(?:png|jpg))/g,
+      function(match){
+        let matchArray = match.split(" ");
+        imageArray = matchArray;
+        return "";
+      });
+
+  return {images: imageArray, content: parsedMessage};
+}
+
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
@@ -66,12 +80,16 @@ wss.on('connection', (ws) => {
 
     // Check the type of the message, and convert it correctly before sending it back
     if(parsedData.type === "postMessage") {
+      const parsedContent = parseImageArray(parsedData.content);
+      parsedData.content = parsedContent.content;
+      parsedData.images = parsedContent.images;
       parsedData.type = "incomingMessage";
     } else if (parsedData.type === "postNotification") {
       parsedData.type = "incomingNotification";
     } else {
       throw new Error("Unknown data type", parsedData.type);
     }
+    console.log(parsedData);
     wss.broadcast(JSON.stringify(parsedData));
   });
 
