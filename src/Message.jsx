@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
 
+// Message is a functional component that simply generates each message send to it from the MessageList
+// Note that notifications and messages are rendered differently
 function Message(props) {
-  console.log('Got message Component');
   if (props.type === "incomingMessage") {
     let images = null;
-    console.log(props.images.length);
-    if (props.images.length !== 0){
-      console.log("An image or more exists in the message!");
+    if (props.images.length !== 0){                   // Images, if there are any, are sent in an array
       images = props.images.map( (image, index) => (
-            (<div key={index}><br/><img className="message-image" src={image}/><br/></div>)
+            (<div key={index}><br/><img className="message-image" src={image}/></div>)
           ));
     }
-    const img = images && images;
-    const content = props.content && props.content;
-    console.log("Content": content);
+
+    const img = images && images;                     // If there are no images, don't try to render them
+    const content = props.content && props.content;   // If there is no content, don't try to render it
+
     return (
       <div className="message">
         <span className="message-username"

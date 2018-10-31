@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
+// MessageList handles sending each message from the App to be rendered as an actual HTML object
 class MessageList extends Component {
-
   constructor() {
     super();
   }
@@ -16,8 +16,7 @@ class MessageList extends Component {
         type={message.type}
         userColor={message.userColor}
         images={message.images} />
-    )
-    );
+    ));
     return (
       <main className="messages">
         {messageItems}

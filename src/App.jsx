@@ -3,21 +3,23 @@ import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 import ScrollManager from './ScrollManager.jsx';
 
+// App is the main component, receiving data from the websocket server, and sending its state to all child components
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: {name: "", color: null}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "", color: null},
       messages: [],
       usersOnline: 0
     };
-    this.sendMessage = this.sendMessage.bind(this);
+    // Bind all relevant functions to be able to send them as props
+    this.sendMessageToServer = this.sendMessageToServer.bind(this);
     this.updateState = this.updateState.bind(this);
     this.updateCurrentUser = this.updateCurrentUser.bind(this);
-    this.sendNotification = this.sendNotification.bind(this);
+    this.sendNotificationToServer = this.sendNotificationToServer.bind(this);
   }
 
-  sendMessage(message) {
+  sendMessageToServer(message) {
     const serverMessage = {
       user: this.state.currentUser.name || "Anonymous",
       userColor: this.state.currentUser.color,
@@ -26,7 +28,7 @@ class App extends Component {
     this.socket.send(JSON.stringify(serverMessage));
   }
 
-  sendNotification(notification) {
+  sendNotificationToServer(notification) {
     const currentUser = this.state.currentUser.name || "Anonymous";
     const newUser = notification.newUser || "Anonymous";
     const serverMessage = {
@@ -38,7 +40,8 @@ class App extends Component {
   }
 
   updateCurrentUser(user) {
-    // React doesn't play well with nested states, so we create a dummy object to store the whole property
+    // React doesn't play well with nested states
+    // So we create a dummy object to store the whole property and change that instead
     let currentUser = {...this.state.currentUser};
     currentUser.name = user;
     this.setState({currentUser});
@@ -47,6 +50,8 @@ class App extends Component {
   componentDidMount() {
     const self = this;
     this.socket = new WebSocket("ws://0.0.0.0:3001");
+
+    // Parse string message to JSON object before sending it to the state handler
     this.socket.onmessage = ( evt => {
       const data = JSON.parse(evt.data);
       this.updateState(data);
@@ -55,14 +60,13 @@ class App extends Component {
 
   // Handles server messages and determines state changes
   updateState(data) {
-    if(data.numberOfClients) { // This is a client update
+    if(data.numberOfClients) {                              // This is a client update
       this.setState({usersOnline: data.numberOfClients});
-    } else if(data.userColor && !data.user) { // This is a color update
-      // React doesn't play well with nested states, so we create a dummy object to store the whole property
+    } else if(data.userColor && !data.user) {               // This is a color update
       let currentUser = {...this.state.currentUser};
       currentUser.color = data.userColor;
       this.setState({currentUser});
-    } else { // This is a new message to post
+    } else {                                                // This is a new message to post
       const oldMessages = this.state.messages;
       const newMessages = [...oldMessages, data];
       this.setState({messages: newMessages});
@@ -79,11 +83,12 @@ class App extends Component {
       <MessageList messages={this.state.messages}/>
       <ScrollManager />
       <ChatBar currentUser={this.state.currentUser}
-        sendMessage={this.sendMessage}
+        sendMessageToServer={this.sendMessageToServer}
         updateCurrentUser={this.updateCurrentUser}
-        sendNotification={this.sendNotification}/>
+        sendNotificationToServer={this.sendNotificationToServer}/>
       </div>
     );
   }
 }
+
 export default App;

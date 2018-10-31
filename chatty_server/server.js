@@ -1,13 +1,9 @@
-// server.js
+// WebSocket Server
 
-const express = require('express');
-const SocketServer = require('ws').Server;
-
-// UUID
-const uuid = require ('uuid/v1');
-
-// Random Color
-const randomColor = require('randomcolor');
+const express = require('express');           // Run an express server
+const SocketServer = require('ws').Server;    // Allows express server to have websockets
+const uuid = require ('uuid/v1');             // Allows unique universal ID generation
+const randomColor = require('randomcolor');   // Generates a unique color for users
 
 // Set the port to 3001
 const PORT = 3001;
@@ -21,9 +17,19 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
+// Send data to ALL connected users
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     client.send(data);
+  });
+};
+
+// Send data to ALL connected users EXCEPT the current user
+wss.broadcastToOthers = function broadcast(data, ws) {
+  wss.clients.forEach(function each(client) {
+        if (client !== ws) {
+          client.send(data);
+        }
   });
 };
 
@@ -41,18 +47,10 @@ function parseImageArray(messageToParse) {
   return {images: imageArray, content: parsedMessage};
 }
 
-// Set up a callback that will run when a client connects to the server
+// Callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-
-  wss.broadcastToOthers = function broadcast(data) {
-    wss.clients.forEach(function each(client) {
-          if (client !== ws) {
-            client.send(data);
-          }
-    });
-  };
 
   ws.send(JSON.stringify({
     userColor: randomColor( {
@@ -71,26 +69,28 @@ wss.on('connection', (ws) => {
   wss.broadcastToOthers(JSON.stringify({
     content: "New user has connected",
     type: "incomingNotification"
-  }));
+  }), ws);
 
+  // Triggered when the server receives some data from a client
   ws.on('message', (data)=> {
+
     // When receiving a message, parse to JSON, add a UUID, then send it back
     parsedData = JSON.parse(data);
     parsedData.id = uuid();
 
     // Check the type of the message, and convert it correctly before sending it back
     if(parsedData.type === "postMessage") {
-      const parsedContent = parseImageArray(parsedData.content);
-      parsedData.content = parsedContent.content;
-      parsedData.images = parsedContent.images;
+      const parsedDataWithImagesSeparated = parseImageArray(parsedData.content);
+
+      parsedData.content = parsedDataWithImagesSeparated.content;
+      parsedData.images = parsedDataWithImagesSeparated.images;
       parsedData.type = "incomingMessage";
     } else if (parsedData.type === "postNotification") {
       parsedData.type = "incomingNotification";
     } else {
       throw new Error("Unknown data type", parsedData.type);
     }
-    console.log(parsedData);
-    wss.broadcast(JSON.stringify(parsedData));
+      wss.broadcast(JSON.stringify(parsedData));
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.

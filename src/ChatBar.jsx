@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+// ChatBar handles any user input, changing the user's name and posting their messages
 class ChatBar extends Component {
   constructor() {
     super();
@@ -13,7 +14,7 @@ class ChatBar extends Component {
       message: event.target.message.value,
       type: "postMessage"
     };
-    this.props.sendMessage(content);
+    this.props.sendMessageToServer(content);
     event.target.message.value = "";
   }
 
@@ -22,7 +23,7 @@ class ChatBar extends Component {
       newUser: event.target.value,
       type: "postNotification"
     };
-    this.props.sendNotification(content);
+    this.props.sendNotificationToServer(content);
     this.props.updateCurrentUser(event.target.value);
   }
 
