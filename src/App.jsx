@@ -6,7 +6,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "", color: null}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       usersOnline: 0
     };
@@ -19,14 +19,14 @@ class App extends Component {
   sendMessage(message) {
     const serverMessage = {
       user: this.state.currentUser.name || "Anonymous",
+      userColor: this.state.currentUser.color,
       content: message.message, type: message.type
     };
-    console.log('Posting message content', serverMessage);
+    console.log('App is sending this message to the server:', serverMessage);
     this.socket.send(JSON.stringify(serverMessage));
   }
 
   sendNotification(notification) {
-    // console.log('Received notification', notification);
     const currentUser = this.state.currentUser.name || "Anonymous";
     const newUser = notification.newUser || "Anonymous";
     const serverMessage = {
@@ -35,11 +35,13 @@ class App extends Component {
       type: notification.type
     };
     this.socket.send(JSON.stringify(serverMessage));
-    // console.log('Sending notification to server', serverMessage);
   }
 
   updateCurrentUser(user) {
-    this.setState({currentUser: {name: user}});
+    // React doesn't play well with nested states, so we create a dummy object to store the whole property
+    let currentUser = {...this.state.currentUser};
+    currentUser.name = user;
+    this.setState({currentUser});
   }
 
   componentDidMount() {
@@ -49,31 +51,26 @@ class App extends Component {
       const data = JSON.parse(evt.data);
       this.updateState(data);
     });
-
-    this.socket.onclose = (evt => {
-      const currentUser = this.state.currentUser.name || "Anonymous";
-      const serverMessage = {
-        content: currentUser + " has disconnected",
-        type: "postNotification"
-      };
-      this.socket.send(JSON.stringify(serverMessage));
-    });
   }
 
+  // Handles server messages and determines state changes
   updateState(data) {
-    console.log(data);
     if(data.numberOfClients) {
       this.setState({usersOnline: data.numberOfClients});
+    } else if(data.userColor && !data.content) {
+      // React doesn't play well with nested states, so we create a dummy object to store the whole property
+      let currentUser = {...this.state.currentUser};
+      currentUser.color = data.userColor;
+      this.setState({currentUser});
     } else {
       const oldMessages = this.state.messages;
       const newMessages = [...oldMessages, data];
       this.setState({messages: newMessages});
+      console.log('New server state is:', this.state);
     }
   }
 
   render() {
-    // console.log('App.jsx rerendered, printing state', this.state);
-    // console.log('Sending this to MessageList', this.state.messages);
     return (
       <div className="app">
       <nav className="navbar">

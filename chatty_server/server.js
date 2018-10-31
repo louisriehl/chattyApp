@@ -6,6 +6,9 @@ const SocketServer = require('ws').Server;
 // UUID
 const uuid = require ('uuid/v1');
 
+// Random Color
+const randomColor = require('randomcolor');
+
 // Set the port to 3001
 const PORT = 3001;
 
@@ -36,6 +39,12 @@ wss.on('connection', (ws) => {
           }
     });
   };
+
+  ws.send(JSON.stringify({
+    userColor: randomColor( {
+      luminosity: 'dark'
+    })
+  }));
 
   numberOfClients = () => {
     return {numberOfClients: wss.clients.size};
