@@ -10,12 +10,12 @@ class ScrollManager extends Component {
   }
 
   scrollToBottom() {
-    this.element.scrollIntoView({behavior: "smooth"});
+    this.thisDiv.scrollIntoView({behavior: "smooth"});
   }
 
   render() {
     return (
-      <div ref={element => { this.element = element; }} />
+      <div ref={thisDiv => { this.thisDiv = thisDiv; }} />
     );
   }
 }
