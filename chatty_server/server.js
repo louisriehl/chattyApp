@@ -54,7 +54,7 @@ wss.on('connection', (ws) => {
 
   ws.send(JSON.stringify({
     userColor: randomColor( {
-      luminosity: 'light'
+      luminosity: 'dark'
     })
   }));
 

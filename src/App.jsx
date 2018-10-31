@@ -31,20 +31,25 @@ class App extends Component {
   sendNotificationToServer(notification) {
     const currentUser = this.state.currentUser.name || "Anonymous";
     const newUser = notification.newUser || "Anonymous";
-    const serverMessage = {
-      content: currentUser +
-      " has changed their name to " + newUser,
-      type: notification.type
-    };
-    this.socket.send(JSON.stringify(serverMessage));
+    if (currentUser !== newUser){
+      const serverMessage = {
+        content: currentUser +
+        " has changed their name to " + newUser,
+        type: notification.type
+      };
+      this.socket.send(JSON.stringify(serverMessage));}
   }
 
   updateCurrentUser(user) {
-    // React doesn't play well with nested states
-    // So we create a dummy object to store the whole property and change that instead
-    let currentUser = {...this.state.currentUser};
-    currentUser.name = user;
-    this.setState({currentUser});
+    if (user === this.state.currentUser.name) {
+      return;
+    } else {
+      // React doesn't play well with nested states
+      // So we create a dummy object to store the whole property and change that instead
+      let currentUser = {...this.state.currentUser};
+      currentUser.name = user;
+      this.setState({currentUser});
+    }
   }
 
   componentDidMount() {
