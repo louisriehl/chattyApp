@@ -9,12 +9,12 @@ class App extends Component {
       currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
-    this.addMessage = this.addMessage.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
     this.updateState = this.updateState.bind(this);
     this.updateCurrentUser = this.updateCurrentUser.bind(this);
   }
 
-  addMessage(message) {
+  sendMessage(message) {
     const serverMessage = {user: this.state.currentUser.name || "Anonymous", content: message, type: "incomingMessage"};
     this.socket.send(JSON.stringify(serverMessage));
   }
@@ -44,7 +44,7 @@ class App extends Component {
     return (
       <div className="app">
       <MessageList messages={this.state.messages}/>
-      <ChatBar currentUser={this.state.currentUser} addMessage={this.addMessage} updateCurrentUser={this.updateCurrentUser}/>
+      <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} updateCurrentUser={this.updateCurrentUser}/>
       </div>
     );
   }

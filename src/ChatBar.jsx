@@ -11,7 +11,7 @@ class ChatBar extends Component {
   onSubmit(event) {
     event.preventDefault();
     const content = event.target.message.value;
-    this.props.addMessage(content);
+    this.props.sendMessage(content);
     event.target.message.value = "";
   }
 
