@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   sendNotification(notification) {
-    console.log('Received notification', notification);
+    // console.log('Received notification', notification);
     const currentUser = this.state.currentUser.name || "Anonymous";
     const newUser = notification.newUser || "Anonymous";
     const serverMessage = {
@@ -33,7 +33,8 @@ class App extends Component {
       " has changed their name to " + newUser,
       type: notification.type
     };
-    console.log('Sending notification to server', serverMessage);
+    this.socket.send(JSON.stringify(serverMessage));
+    // console.log('Sending notification to server', serverMessage);
   }
 
   updateCurrentUser(user) {
