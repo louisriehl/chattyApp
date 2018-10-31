@@ -82,7 +82,9 @@ class App extends Component {
     return (
       <div className="app">
       <nav className="navbar">
-        <span>{this.state.usersOnline} User(s) Online</span>
+        <span>{this.state.usersOnline === 1 ?
+          this.state.usersOnline + " Lonely User Online..." :
+          this.state.usersOnline + " Users Online"}</span>
         <a href="/" className="navbar-brand"><i className="far fa-comments"></i> Chatty</a>
       </nav>
       <MessageList messages={this.state.messages}/>
