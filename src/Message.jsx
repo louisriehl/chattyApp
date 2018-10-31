@@ -8,7 +8,7 @@ function Message(props) {
     if (props.images.length !== 0){
       console.log("An image or more exists in the message!");
       images = props.images.map( (image, index) => (
-            (<div key={index}><br/><img src={image}/><br/></div>)
+            (<div key={index}><br/><img className="message-image" src={image}/><br/></div>)
           ));
     }
     const img = images && images;
