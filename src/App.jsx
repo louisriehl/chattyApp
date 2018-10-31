@@ -49,6 +49,15 @@ class App extends Component {
       const data = JSON.parse(evt.data);
       this.updateState(data);
     });
+
+    this.socket.onclose = (evt => {
+      const currentUser = this.state.currentUser.name || "Anonymous";
+      const serverMessage = {
+        content: currentUser + " has disconnected",
+        type: "postNotification"
+      };
+      this.socket.send(JSON.stringify(serverMessage));
+    });
   }
 
   updateState(data) {

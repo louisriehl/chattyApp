@@ -28,14 +28,34 @@ wss.broadcast = function broadcast(data) {
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  console.log('Client connected');
-  console.log('Current number of clients:', wss.clients.size);
-  wss.broadcast(JSON.stringify({numberOfClients: wss.clients.size}));
+
+  wss.broadcastToOthers = function broadcast(data) {
+    wss.clients.forEach(function each(client) {
+          if (client !== ws) {
+            client.send(data);
+          }
+    });
+  };
+
+  numberOfClients = () => {
+    return {numberOfClients: wss.clients.size};
+  };
+
+  // Update number of clients on connection
+  wss.broadcast(JSON.stringify(numberOfClients()));
+
+  // When a user connects, send a notification to everyone but the current user
+  wss.broadcastToOthers(JSON.stringify({
+    content: "New user has connected",
+    type: "incomingNotification"
+  }));
 
   ws.on('message', (data)=> {
     // When receiving a message, parse to JSON, add a UUID, then send it back
     parsedData = JSON.parse(data);
     parsedData.id = uuid();
+
+    // Check the type of the message, and convert it correctly before sending it back
     if(parsedData.type === "postMessage") {
       parsedData.type = "incomingMessage";
     } else if (parsedData.type === "postNotification") {
@@ -48,8 +68,14 @@ wss.on('connection', (ws) => {
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    console.log('Client disconnected');
-    wss.broadcast(JSON.stringify({numberOfClients: wss.clients.size}));
-  }
-    );
+
+    // Also update number of clients on a disconnect
+    wss.broadcast(JSON.stringify(numberOfClients()));
+
+    // Send disconnect message to all except client
+    wss.broadcastToOthers(JSON.stringify({
+      content: "A user has disconnected",
+      type: "incomingNotification"
+    }));
+  });
 });
