@@ -37,8 +37,14 @@ wss.on('connection', (ws) => {
     });
   };
 
-  wss.broadcast(JSON.stringify({numberOfClients: wss.clients.size}));
+  numberOfClients = () => {
+    return {numberOfClients: wss.clients.size};
+  };
 
+  // Update number of clients on connection
+  wss.broadcast(JSON.stringify(numberOfClients()));
+
+  // When a user connects, send a notification to everyone but the current user
   wss.broadcastToOthers(JSON.stringify({
     content: "New user has connected",
     type: "incomingNotification"
@@ -49,6 +55,8 @@ wss.on('connection', (ws) => {
     parsedData = JSON.parse(data);
     console.log('data received', parsedData);
     parsedData.id = uuid();
+
+    // Check the type of the message, and convert it correctly before sending it back
     if(parsedData.type === "postMessage") {
       parsedData.type = "incomingMessage";
     } else if (parsedData.type === "postNotification") {
@@ -61,7 +69,9 @@ wss.on('connection', (ws) => {
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    wss.broadcast(JSON.stringify({numberOfClients: wss.clients.size}));
+
+    // Also update number of clients on a disconnect
+    wss.broadcast(JSON.stringify(numberOfClients()));
     wss.broadcastToOthers(JSON.stringify({
       content: "A user has disconnected",
       type: "incomingNotification"
