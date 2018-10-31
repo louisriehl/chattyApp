@@ -48,12 +48,11 @@ wss.on('connection', (ws) => {
   wss.broadcastToOthers(JSON.stringify({
     content: "New user has connected",
     type: "incomingNotification"
-    }));
+  }));
 
   ws.on('message', (data)=> {
     // When receiving a message, parse to JSON, add a UUID, then send it back
     parsedData = JSON.parse(data);
-    console.log('data received', parsedData);
     parsedData.id = uuid();
 
     // Check the type of the message, and convert it correctly before sending it back
@@ -72,10 +71,11 @@ wss.on('connection', (ws) => {
 
     // Also update number of clients on a disconnect
     wss.broadcast(JSON.stringify(numberOfClients()));
+
+    // Send disconnect message to all except client
     wss.broadcastToOthers(JSON.stringify({
       content: "A user has disconnected",
       type: "incomingNotification"
     }));
-  }
-    );
+  });
 });
