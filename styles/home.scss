@@ -58,6 +58,7 @@
       background: white;
       border-radius: 0.5em;
       margin: 1em 3em;
+      box-shadow: 6px 6px 16px 0px #a0a0a0
     }
 
     .message.system {
@@ -80,6 +81,7 @@
 
     .message-image {
       max-width: 60%;
+      border-radius: 1em;
     }
 
     .message-username {
