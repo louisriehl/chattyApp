@@ -40,7 +40,11 @@ wss.on('connection', (ws) => {
     });
   };
 
-  ws.send(JSON.stringify({userColor: randomColor()}));
+  ws.send(JSON.stringify({
+    userColor: randomColor( {
+      luminosity: 'dark'
+    })
+  }));
 
   numberOfClients = () => {
     return {numberOfClients: wss.clients.size};

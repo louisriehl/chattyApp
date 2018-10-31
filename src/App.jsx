@@ -19,10 +19,10 @@ class App extends Component {
   sendMessage(message) {
     const serverMessage = {
       user: this.state.currentUser.name || "Anonymous",
-      userColor: this.state.userColor,
+      userColor: this.state.currentUser.color,
       content: message.message, type: message.type
     };
-    console.log('Posting message content', serverMessage);
+    console.log('App is sending this message to the server:', serverMessage);
     this.socket.send(JSON.stringify(serverMessage));
   }
 
@@ -39,7 +39,6 @@ class App extends Component {
 
   updateCurrentUser(user) {
     // React doesn't play well with nested states, so we create a dummy object to store the whole property
-    console.log('User update', user);
     let currentUser = {...this.state.currentUser};
     currentUser.name = user;
     this.setState({currentUser});
@@ -56,10 +55,9 @@ class App extends Component {
 
   // Handles server messages and determines state changes
   updateState(data) {
-    console.log(data);
     if(data.numberOfClients) {
       this.setState({usersOnline: data.numberOfClients});
-    } else if(data.userColor) {
+    } else if(data.userColor && !data.content) {
       // React doesn't play well with nested states, so we create a dummy object to store the whole property
       let currentUser = {...this.state.currentUser};
       currentUser.color = data.userColor;
@@ -68,6 +66,7 @@ class App extends Component {
       const oldMessages = this.state.messages;
       const newMessages = [...oldMessages, data];
       this.setState({messages: newMessages});
+      console.log('New server state is:', this.state);
     }
   }
 
