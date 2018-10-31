@@ -38,13 +38,16 @@ wss.on('connection', (ws) => {
   };
 
   wss.broadcast(JSON.stringify({numberOfClients: wss.clients.size}));
+
   wss.broadcastToOthers(JSON.stringify({
     content: "New user has connected",
     type: "incomingNotification"
     }));
+
   ws.on('message', (data)=> {
     // When receiving a message, parse to JSON, add a UUID, then send it back
     parsedData = JSON.parse(data);
+    console.log('data received', parsedData);
     parsedData.id = uuid();
     if(parsedData.type === "postMessage") {
       parsedData.type = "incomingMessage";
@@ -59,6 +62,10 @@ wss.on('connection', (ws) => {
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
     wss.broadcast(JSON.stringify({numberOfClients: wss.clients.size}));
+    wss.broadcastToOthers(JSON.stringify({
+      content: "A user has disconnected",
+      type: "incomingNotification"
+    }));
   }
     );
 });
