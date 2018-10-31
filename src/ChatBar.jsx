@@ -30,11 +30,13 @@ class ChatBar extends Component {
   render() {
     return (
       <footer className="chatbar">
-      <input className="chatbar-username"
+      <input autoComplete="off" className="chatbar-username"
           placeholder={this.props.currentUser.name || "Anonymous"}
           name="user" onBlur={this.onBlur}/>
-      <form onSubmit={this.onSubmit} className="message-form">
-        <input className="chatbar-message"
+      <form onSubmit={this.onSubmit}
+        className="message-form">
+        <input autoComplete="off"
+          className="chatbar-message"
           placeholder="Type a message and hit ENTER"
           name="message" />
       </form>
