@@ -27,10 +27,14 @@ class App extends Component {
     };
     this.socket.send(JSON.stringify(serverMessage));
     if(this.state.usersOnline === 1) {
-      this.socket.send(JSON.stringify({
-        content: "...are you talking to yourself?",
-        type: "postNotification"
-      }));
+      setTimeout(
+        () => {
+          this.socket.send(JSON.stringify(
+          {
+            content: "You seem to be talking to yourself... are you ok?",
+            type: "postNotification"
+          }
+      ))}, 1500);
     }
   }
 
@@ -43,7 +47,8 @@ class App extends Component {
         " has changed their name to " + newUser,
         type: notification.type
       };
-      this.socket.send(JSON.stringify(serverMessage));}
+      this.socket.send(JSON.stringify(serverMessage));
+    }
   }
 
   updateCurrentUser(user) {
