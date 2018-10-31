@@ -15,7 +15,11 @@ class App extends Component {
   }
 
   sendMessage(message) {
-    const serverMessage = {user: this.state.currentUser.name || "Anonymous", content: message, type: "incomingMessage"};
+    const serverMessage = {
+      user: this.state.currentUser.name || "Anonymous",
+      content: message.message, type: message.type
+    };
+    console.log('Posting message content', serverMessage);
     this.socket.send(JSON.stringify(serverMessage));
   }
 
