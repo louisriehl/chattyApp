@@ -55,7 +55,10 @@ class App extends Component {
 
   componentDidMount() {
     const self = this;
-    this.socket = new WebSocket("ws://0.0.0.0:3001");
+
+    // If you want to host this chat on your computer rather than locally, set
+    // the WebSocket url to 'ws://<yourLocalIP>:3001'
+    this.socket = new WebSocket("ws://10.110.110.111:3001");
 
     // Parse string message to JSON object before sending it to the state handler
     this.socket.onmessage = ( evt => {
