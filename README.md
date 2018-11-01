@@ -7,7 +7,7 @@ Focusing on a clean and simple UI, the app is designed to be lightweight and int
 ## Screenshots
 
 ![interact with chattybot](https://github.com/louisriehl/chattyApp/blob/master/build/chattybot.png?raw=true)
-![chat with other users](https://github.com/louisriehl/chattyApp/blob/master/build/chattybot_images.png?raw=true)
+![chat with other users](https://github.com/louisriehl/chattyApp/blob/master/build/posting_images.png?raw=true)
 ![chatty bot features](https://github.com/louisriehl/chattyApp/blob/master/build/chattybot_images.png?raw=true)
 
 ## Features
