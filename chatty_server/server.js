@@ -98,7 +98,8 @@ wss.on('connection', (ws) => {
           user: "Chatty_Bot",
           userColor: "cyan",
           id: uuid(),
-          type: "incomingMessage"
+          type: "incomingMessage",
+          images: []
         };
       }
     } else if (parsedData.type === "postNotification") {
@@ -110,6 +111,7 @@ wss.on('connection', (ws) => {
       if (chattyTalk !== null) {
         console.log('Talking to chattybot.');
         console.log(chattyTalk);
+        setTimeout(() => wss.broadcast(JSON.stringify(chattyTalk)), 1000);
       }
   });
 
