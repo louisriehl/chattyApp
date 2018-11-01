@@ -23,4 +23,4 @@ const chattyBot = {
   parseString: (command) => command.replace(chattyBot.regex, "")
 };
 
-console.log(chattyBot.giveAnswer("chattybot help"));
+module.exports = chattyBot;

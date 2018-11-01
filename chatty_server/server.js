@@ -8,6 +8,9 @@ const randomColor = require('randomcolor');   // Generates a unique color for us
 // Set the port to 3001
 const PORT = 3001;
 
+// Our ChatBot
+const chattyBot = require('./ChattyBot.js');
+
 // Create a new express server
 const server = express()
    // Make the express server serve static assets (html, javascript, css) from the /public folder
@@ -86,6 +89,11 @@ wss.on('connection', (ws) => {
       parsedData.content = parsedDataWithImagesSeparated.content;
       parsedData.images = parsedDataWithImagesSeparated.images;
       parsedData.type = "incomingMessage";
+
+      if(chattyBot.isCalling(parsedData.content)) {
+        const chattyContent = chattyBot.giveAnswer(parsedData.content);
+        console.log(chattyContent);
+      }
     } else if (parsedData.type === "postNotification") {
       parsedData.type = "incomingNotification";
     } else {
