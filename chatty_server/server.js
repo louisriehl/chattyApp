@@ -8,6 +8,9 @@ const randomColor = require('randomcolor');   // Generates a unique color for us
 // Set the port to 3001
 const PORT = 3001;
 
+// Our ChatBot
+const chattyBot = require('./ChattyBot.js');
+
 // Create a new express server
 const server = express()
    // Make the express server serve static assets (html, javascript, css) from the /public folder
@@ -37,7 +40,7 @@ wss.broadcastToOthers = function broadcast(data, ws) {
 function parseImageArray(messageToParse) {
   let imageArray = [];
   const parsedMessage = messageToParse
-    .replace(/(https?:\/\/.*\.(?:png|jpg))/g,
+    .replace(/(https?:\/\/.*\.(?:png|jpg|php))/g,
       function(match){
         let matchArray = match.split(" ");
         imageArray = matchArray;
@@ -56,6 +59,12 @@ wss.on('connection', (ws) => {
     userColor: randomColor( {
       luminosity: 'dark'
     })
+  }));
+
+  ws.send(JSON.stringify({
+    content: "Welcome to chattyApp! Say hello or try talking to Chatty_Bot by typing chattybot help!",
+    type: "incomingNotification",
+    id: uuid()
   }));
 
   numberOfClients = () => {
@@ -80,18 +89,34 @@ wss.on('connection', (ws) => {
     parsedData.id = uuid();
 
     // Check the type of the message, and convert it correctly before sending it back
+    let chattyTalk = null;
     if(parsedData.type === "postMessage") {
       const parsedDataWithImagesSeparated = parseImageArray(parsedData.content);
 
       parsedData.content = parsedDataWithImagesSeparated.content;
       parsedData.images = parsedDataWithImagesSeparated.images;
       parsedData.type = "incomingMessage";
+
+      if(chattyBot.isCalling(parsedData.content)) {
+        const chattyContent = chattyBot.giveAnswer(parsedData.content);
+        chattyTalk = {
+          content: chattyContent.content,
+          user: "🤖Chatty_Bot",
+          userColor: "cyan",
+          id: uuid(),
+          type: "incomingMessage",
+          images: chattyContent.images
+        };
+      }
     } else if (parsedData.type === "postNotification") {
       parsedData.type = "incomingNotification";
     } else {
       throw new Error("Unknown data type", parsedData.type);
     }
       wss.broadcast(JSON.stringify(parsedData));
+      if (chattyTalk !== null) {
+        setTimeout(() => wss.broadcast(JSON.stringify(chattyTalk)), 1000);
+      }
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
