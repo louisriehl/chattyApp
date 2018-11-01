@@ -51,6 +51,11 @@
     .chatbar-username {
       flex: 2;
     }
+    .chatbar-message:focus,
+    .chatbar-username:focus {
+      outline: none;
+      box-shadow: 0 0 6px blue;
+    }
 
     .message {
       display: flex;

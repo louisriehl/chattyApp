@@ -26,16 +26,6 @@ class App extends Component {
       content: message.message, type: message.type
     };
     this.socket.send(JSON.stringify(serverMessage));
-    if(this.state.usersOnline === 1) {
-      setTimeout(
-        () => {
-          this.socket.send(JSON.stringify(
-          {
-            content: "You seem to be talking to yourself... are you ok?",
-            type: "postNotification"
-          }
-      ))}, 1500);
-    }
   }
 
   sendNotificationToServer(notification) {

@@ -1,13 +1,12 @@
 const kittenArray = [
-"https://www.catster.com/wp-content/uploads/2017/12/A-gray-kitten-meowing.jpg",
-"https://i.ytimg.com/vi/BgIgKcqPd4k/maxresdefault.jpg",
-"https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg/230px-Kitten_in_Rizal_Park%2C_Manila.jpg",
-"https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg",
-"https://www.thesprucepets.com/thmb/810a_HYIb2E8DxkedI6V-3gtkys=/450x0/filters:no_upscale():max_bytes(150000):strip_icc()/kitten-looking-at-camera-521981437-57d840213df78c583374be3b.jpg",
-"https://www.thehappycatsite.com/wp-content/uploads/2017/10/best-treats-for-kittens.jpg",
-"http://www.saveacat.org/uploads/4/8/4/1/48413975/1454901839.png",
-"https://i.ytimg.com/vi/gxBVIUcoTNM/maxresdefault.jpg"
-
+  "https://www.catster.com/wp-content/uploads/2017/12/A-gray-kitten-meowing.jpg",
+  "https://i.ytimg.com/vi/BgIgKcqPd4k/maxresdefault.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg/230px-Kitten_in_Rizal_Park%2C_Manila.jpg",
+  "https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg",
+  "https://www.thesprucepets.com/thmb/810a_HYIb2E8DxkedI6V-3gtkys=/450x0/filters:no_upscale():max_bytes(150000):strip_icc()/kitten-looking-at-camera-521981437-57d840213df78c583374be3b.jpg",
+  "https://www.thehappycatsite.com/wp-content/uploads/2017/10/best-treats-for-kittens.jpg",
+  "http://www.saveacat.org/uploads/4/8/4/1/48413975/1454901839.png",
+  "https://i.ytimg.com/vi/gxBVIUcoTNM/maxresdefault.jpg"
 ];
 
 const chattyBot = {
@@ -23,7 +22,6 @@ const chattyBot = {
       content: "",
       images: []
     };
-
     switch(command) {
       case "":
         response.content = "Beep boop, that's me!";
@@ -61,6 +59,7 @@ const chattyBot = {
         response.content = "I don't recognize that command!" +
         " Try typing 'chattybot help' to see what I can do!";
     }
+
     return response;
   },
   parseString: (command) => command.replace(chattyBot.regex, "")
