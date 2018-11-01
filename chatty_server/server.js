@@ -40,7 +40,7 @@ wss.broadcastToOthers = function broadcast(data, ws) {
 function parseImageArray(messageToParse) {
   let imageArray = [];
   const parsedMessage = messageToParse
-    .replace(/(https?:\/\/.*\.(?:png|jpg))/g,
+    .replace(/(https?:\/\/.*\.(?:png|jpg|php))/g,
       function(match){
         let matchArray = match.split(" ");
         imageArray = matchArray;
@@ -59,6 +59,12 @@ wss.on('connection', (ws) => {
     userColor: randomColor( {
       luminosity: 'dark'
     })
+  }));
+
+  ws.send(JSON.stringify({
+    content: "Welcome to chattyApp! Say hello or try talking to Chatty_Bot by typing chattybot help!",
+    type: "incomingNotification",
+    id: uuid()
   }));
 
   numberOfClients = () => {
@@ -94,12 +100,12 @@ wss.on('connection', (ws) => {
       if(chattyBot.isCalling(parsedData.content)) {
         const chattyContent = chattyBot.giveAnswer(parsedData.content);
         chattyTalk = {
-          content: chattyContent,
-          user: "Chatty_Bot",
+          content: chattyContent.content,
+          user: "🤖Chatty_Bot",
           userColor: "cyan",
           id: uuid(),
           type: "incomingMessage",
-          images: []
+          images: chattyContent.images
         };
       }
     } else if (parsedData.type === "postNotification") {
@@ -109,8 +115,6 @@ wss.on('connection', (ws) => {
     }
       wss.broadcast(JSON.stringify(parsedData));
       if (chattyTalk !== null) {
-        console.log('Talking to chattybot.');
-        console.log(chattyTalk);
         setTimeout(() => wss.broadcast(JSON.stringify(chattyTalk)), 1000);
       }
   });
